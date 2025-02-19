@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	skipBase     = 3
+	skipBase     = 2
 	headerLength = 26 // "2006/01/02 15:04:05 ERROR "
 )
 
 const (
-	slash              = '/'
+	datetimeSeparator  = '-'
 	space              = ' '
 	colon              = ':'
 	minus              = '-'
@@ -55,10 +55,10 @@ func (r *record) Header(level Level) {
 	r.header[2] = digits[yr/10]
 	yr %= 10
 	r.header[3] = digits[yr]
-	r.header[4] = slash
+	r.header[4] = datetimeSeparator
 	r.header[5] = digits[mn/10]
 	r.header[6] = digits[mn%10]
-	r.header[7] = slash
+	r.header[7] = datetimeSeparator
 	r.header[8] = digits[dy/10]
 	r.header[9] = digits[dy%10]
 	r.header[10] = space
@@ -121,19 +121,8 @@ func (r *record) Location(skip int) {
 	if !ok {
 		file = "???"
 		line = 1
-	} else {
-		// 最多截取后3个"/"开始的位置尾串
-		num := 0
-		for idx := len(file) - 1; idx >= 0; idx-- {
-			if file[idx] == slash {
-				num++
-				if num == 3 {
-					file = file[idx+1:]
-					break
-				}
-			}
-		}
 	}
+
 	r.buffer = append(r.buffer, file...)
 	r.buffer = append(r.buffer, colon)
 	r.buffer = strconv.AppendInt(r.buffer, int64(line), 10)

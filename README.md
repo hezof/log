@@ -16,10 +16,9 @@ package log
 # 用法
 
 ```
-import "github.com/etabase/log"
+import "github.com/hezof/log"
 
-log.Debug("msg1", "msg2", "msg3")
-log.Debugf("%v -> %v -> %v", "msg1", "msg2", "msg3")
+log.Debug("%v -> %v -> %v", "msg1", "msg2", "msg3")
 ...
 
 ```
@@ -28,16 +27,15 @@ log.Debugf("%v -> %v -> %v", "msg1", "msg2", "msg3")
 
 ```
 type FileConfig struct {
-	File          string        `json:"file"`           // 日志文件. stdout|stderr|<file-path>,默认stdout.
-	Level         Level         `json:"level"`          // 日志级别. 默认Debug
-	RotateCycle   Cycle         `json:"rotate_cycle"`   // 轮转周期. hourly|daily|weekly|monthly|never,默认never
-	RotateBytes   int64         `json:"rotate_bytes"`   // 轮转大小. 默认0.
-	DaemonMaximum int           `json:"daemon_maximum"` // 写通道长度. 默认0同步写.
-	DaemonDiscard bool          `json:"daemon_discard"` // 写通道舍弃. 默认false不舍弃!
-	BufferBytes   int           `json:"buffer_bytes"`   // 写缓存大小. 默认256K
-	BufferFlush   time.Duration `json:"buffer_flush"`   // 写刷新周期. 默认15s
-	RecordLength  int           `json:"record_length"`  // 记录缓存大小. 默认2048字节
-	RecordFactor  int           `json:"record_factor"`  // 记录缓存重用. 默认10,即小于N*RecordFactor可重用.
+	File             string        `json:"file"`              // 日志文件. stdout|stderr|<file-path>,默认stdout.
+	Level            Level         `json:"level"`             // 日志级别. 默认Debug
+	RotateBytes      int64         `json:"rotate_bytes"`      // 轮转大小. 默认0.
+	RotateCycle      Cycle         `json:"rotate_cycle"`      // 轮转周期. hourly|daily|weekly|monthly|never,默认never
+	BufferLength     int           `json:"buffer_length"`     // 写缓存大小. 默认256K
+	BufferPeriod     time.Duration `json:"buffer_period"`     // 写刷新周期. 默认15s
+	RecordLength     int           `json:"record_length"`     // 记录缓存大小. 默认2K
+	RecordFactor     int           `json:"record_factor"`     // 记录缓存因子. 过大的记录直接舍不作缓存!
+	DiscardThreshold int           `json:"discard_threshold"` // 写通道舍弃. 默认false不舍弃!
 }
 ```
 
