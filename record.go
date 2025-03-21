@@ -9,8 +9,10 @@ import (
 	"time"
 )
 
+var MaxFileSize = 30
+
 const (
-	skipBase     = 2
+	skipBase     = 3
 	headerLength = 26 // "2006/01/02 15:04:05 ERROR "
 )
 
@@ -123,10 +125,20 @@ func (r *record) Location(skip int) {
 		line = 1
 	}
 
-	r.buffer = append(r.buffer, file...)
+	r.buffer = append(r.buffer, filename(file)...)
 	r.buffer = append(r.buffer, colon)
 	r.buffer = strconv.AppendInt(r.buffer, int64(line), 10)
 	r.buffer = append(r.buffer, space, minus, space)
+}
+
+func filename(v string) string {
+	n := len(v)
+	if n > MaxFileSize {
+		v = v[n-MaxFileSize:]
+		p := strings.IndexByte(v, '/')
+		return v[p+1:]
+	}
+	return v
 }
 
 func (r *record) Print(args ...interface{}) {
@@ -137,28 +149,6 @@ func (r *record) Print(args ...interface{}) {
 func (r *record) Printf(format string, args ...interface{}) {
 	r.buffer = fmt.Appendf(r.buffer, format, args...)
 	r.buffer = append(r.buffer, newline)
-}
-
-// PrintStack 打印堆栈追踪信息,如果是"/src/runtime/"自动跳过!
-func (r *record) PrintStack(skip int) {
-	for i := 1; ; i++ {
-		_, file, line, ok := runtime.Caller(i)
-		if !ok {
-			return
-		}
-		// 过滤runtime的行项,避免错误日志过多!
-		if strings.Index(file, "/src/runtime/") != -1 {
-			continue
-		}
-		if skip > 0 {
-			skip--
-			continue
-		}
-		r.buffer = append(r.buffer, file...)
-		r.buffer = append(r.buffer, colon)
-		r.buffer = strconv.AppendInt(r.buffer, int64(line), 10)
-		r.buffer = append(r.buffer, stackLineSeparator)
-	}
 }
 
 func createRecords(recordBytes int, recordFactor int) *records {

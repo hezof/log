@@ -21,9 +21,9 @@ var (
 )
 
 func TestFileLogger(t *testing.T) {
-	defer stdoutLogger.Flush()
+	defer Flush()
 
-	stdoutLogger.Error("这是一个错误 %v", os.ErrClosed)
+	Error("这是一个错误 %v", os.ErrClosed)
 	time.Sleep(time.Second)
 }
 

@@ -176,17 +176,6 @@ func (lgr *fileLogger) Error(format string, args ...interface{}) {
 	}
 }
 
-func (lgr *fileLogger) ErrorStack(format string, args ...interface{}) {
-	if lgr.level <= LevelError {
-		r := lgr.records.Get()
-		r.Header(LevelError)
-		r.Location(skipBase)
-		r.Printf(format, args...)
-		r.PrintStack(skipBase)
-		lgr.Write(r)
-	}
-}
-
 func (lgr *fileLogger) daemon(tk time.Duration) {
 	for {
 		err := lgr.protectDaemon(tk)

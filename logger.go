@@ -5,7 +5,6 @@ type Logger interface {
 	Info(format string, args ...interface{})
 	Warn(format string, args ...interface{})
 	Error(format string, args ...interface{})
-	ErrorStack(format string, args ...interface{})
 	Flush()
 }
 
@@ -46,9 +45,6 @@ func Error(format string, args ...interface{}) {
 	logger.Error(format, args...)
 }
 
-func ErrorStack(format string, args ...interface{}) {
-	logger.ErrorStack(format, args...)
-}
 func Flush() {
 	logger.Flush()
 }
