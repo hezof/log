@@ -104,7 +104,7 @@ func (lgr *fileLogger) Close() {
 	}
 }
 
-func NewFileLogger(c *FileConfig) (Logger, error) {
+func NewFileLogger(c *FileConfig) (FileLogger, error) {
 
 	file, err := ToFile(c.File)
 	if err != nil {
@@ -242,7 +242,7 @@ func (lgr *fileLogger) rotating() {
 	os.Rename(lgr.c.File, rotateFile)
 
 	if file, err := ToFile(lgr.c.File); err != nil {
-		fmt.Fprintf(os.Stderr, "logger open file error: %v, %v", lgr.c.File, err)
+		fmt.Fprintf(os.Stderr, "_logger open file error: %v, %v", lgr.c.File, err)
 	} else {
 		lgr.file = file
 		lgr.writer = bufio.NewWriterSize(file, lgr.c.BufferLength)
@@ -299,7 +299,7 @@ func (lgr *fileLogger) WriteDirect(r *record) {
 __write__:
 	_, err := lgr.writer.Write(r.buffer)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "logger write error: %v", err)
+		fmt.Fprintf(os.Stderr, "_logger write error: %v", err)
 	}
 }
 
@@ -332,7 +332,7 @@ const (
 func ToFile(path string) (file *os.File, err error) {
 
 	switch strings.ToLower(path) {
-	case STDOUT:
+	case STDOUT: // 默认stdout
 		file = os.Stdout
 	case STDERR:
 		file = os.Stderr

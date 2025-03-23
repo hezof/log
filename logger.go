@@ -14,37 +14,35 @@ type FileLogger interface {
 }
 
 // 默认stdout
-var logger Logger
+var _logger Logger = StdoutLogger
 
-func init() {
-	logger, _ = NewFileLogger(&FileConfig{
-		File: STDOUT,
-	})
-}
+var StdoutLogger, _ = NewFileLogger(&FileConfig{
+	File: STDOUT,
+})
 
 func InitLogger(lgr Logger) {
-	if logger != nil {
-		logger.Flush()
+	if _logger != nil {
+		_logger.Flush()
 	}
-	logger = lgr
+	_logger = lgr
 }
 
 func Debug(format string, args ...any) {
-	logger.Debug(format, args...)
+	_logger.Debug(format, args...)
 }
 
 func Info(format string, args ...any) {
-	logger.Info(format, args...)
+	_logger.Info(format, args...)
 }
 
 func Warn(format string, args ...any) {
-	logger.Warn(format, args...)
+	_logger.Warn(format, args...)
 }
 
 func Error(format string, args ...any) {
-	logger.Error(format, args...)
+	_logger.Error(format, args...)
 }
 
 func Flush() {
-	logger.Flush()
+	_logger.Flush()
 }
