@@ -136,7 +136,7 @@ func NewFileLogger(c *FileConfig) (Logger, error) {
 	return lgr, nil
 }
 
-func (lgr *fileLogger) Debug(format string, args ...interface{}) {
+func (lgr *fileLogger) Debug(format string, args ...any) {
 	if lgr.level <= LevelDebug {
 		r := lgr.records.Get()
 		r.Header(LevelDebug)
@@ -146,7 +146,7 @@ func (lgr *fileLogger) Debug(format string, args ...interface{}) {
 	}
 }
 
-func (lgr *fileLogger) Info(format string, args ...interface{}) {
+func (lgr *fileLogger) Info(format string, args ...any) {
 	if lgr.level <= LevelInfo {
 		r := lgr.records.Get()
 		r.Header(LevelInfo)
@@ -156,7 +156,7 @@ func (lgr *fileLogger) Info(format string, args ...interface{}) {
 	}
 }
 
-func (lgr *fileLogger) Warn(format string, args ...interface{}) {
+func (lgr *fileLogger) Warn(format string, args ...any) {
 	if lgr.level <= LevelWarn {
 		r := lgr.records.Get()
 		r.Header(LevelWarn)
@@ -166,7 +166,7 @@ func (lgr *fileLogger) Warn(format string, args ...interface{}) {
 	}
 }
 
-func (lgr *fileLogger) Error(format string, args ...interface{}) {
+func (lgr *fileLogger) Error(format string, args ...any) {
 	if lgr.level <= LevelError {
 		r := lgr.records.Get()
 		r.Header(LevelError)

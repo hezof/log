@@ -1,10 +1,10 @@
 package log
 
 type Logger interface {
-	Debug(format string, args ...interface{})
-	Info(format string, args ...interface{})
-	Warn(format string, args ...interface{})
-	Error(format string, args ...interface{})
+	Debug(format string, args ...any)
+	Info(format string, args ...any)
+	Warn(format string, args ...any)
+	Error(format string, args ...any)
 	Flush()
 }
 
@@ -29,19 +29,19 @@ func InitLogger(lgr Logger) {
 	logger = lgr
 }
 
-func Debug(format string, args ...interface{}) {
+func Debug(format string, args ...any) {
 	logger.Debug(format, args...)
 }
 
-func Info(format string, args ...interface{}) {
+func Info(format string, args ...any) {
 	logger.Info(format, args...)
 }
 
-func Warn(format string, args ...interface{}) {
+func Warn(format string, args ...any) {
 	logger.Warn(format, args...)
 }
 
-func Error(format string, args ...interface{}) {
+func Error(format string, args ...any) {
 	logger.Error(format, args...)
 }
 

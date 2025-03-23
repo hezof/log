@@ -141,12 +141,12 @@ func filename(v string) string {
 	return v
 }
 
-func (r *record) Print(args ...interface{}) {
+func (r *record) Print(args ...any) {
 	r.buffer = fmt.Append(r.buffer, args...)
 	r.buffer = append(r.buffer, newline)
 }
 
-func (r *record) Printf(format string, args ...interface{}) {
+func (r *record) Printf(format string, args ...any) {
 	r.buffer = fmt.Appendf(r.buffer, format, args...)
 	r.buffer = append(r.buffer, newline)
 }
@@ -154,7 +154,7 @@ func (r *record) Printf(format string, args ...interface{}) {
 func createRecords(recordBytes int, recordFactor int) *records {
 	return &records{
 		pool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return &record{
 					buffer: make([]byte, 0, recordBytes),
 				}
