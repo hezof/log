@@ -40,15 +40,15 @@ const (
 )
 
 type FileConfig struct {
-	File             string        `json:"file"`              // 日志文件. stdout|stderr|<file-path>,默认stdout.
-	Level            Level         `json:"level"`             // 日志级别. 默认Debug
-	RotateBytes      int64         `json:"rotate_bytes"`      // 轮转大小. 默认0.
-	RotateCycle      Cycle         `json:"rotate_cycle"`      // 轮转周期. hourly|daily|weekly|monthly|never,默认never
-	BufferLength     int           `json:"buffer_length"`     // 写缓存大小. 默认256K
-	BufferPeriod     time.Duration `json:"buffer_period"`     // 写刷新周期. 默认15s
-	RecordLength     int           `json:"record_length"`     // 记录缓存大小. 默认2K
-	RecordFactor     int           `json:"record_factor"`     // 记录缓存因子. 过大的记录直接舍不作缓存!
-	DiscardThreshold int           `json:"discard_threshold"` // 写通道舍弃. 默认false不舍弃!
+	File             string        // 日志文件. stdout|stderr|<file-path>,默认stdout.
+	Level            Level         // 日志级别. 默认Debug
+	RotateBytes      int64         // 轮转大小. 默认0.
+	RotateCycle      Cycle         // 轮转周期. hourly|daily|weekly|monthly|never,默认never
+	BufferLength     int           // 写缓存大小. 默认256K
+	BufferPeriod     time.Duration // 写刷新周期. 默认15s
+	RecordLength     int           // 记录缓存大小. 默认2K
+	RecordFactor     int           // 记录缓存因子. 过大的记录直接舍不作缓存!
+	DiscardThreshold int           // 写通道舍弃. 默认false不舍弃!
 }
 
 func mergeDefault(fs *FileConfig) *FileConfig {
