@@ -105,13 +105,13 @@ func (lgr *fileLogger) Close() {
 }
 
 func NewFileLogger(c *FileConfig) (FileLogger, error) {
-
+	c = mergeDefault(c)
 	file, err := ToFile(c.File)
 	if err != nil {
 		return nil, err
 	}
 	lgr := new(fileLogger)
-	lgr.c = mergeDefault(c)
+	lgr.c = c
 	lgr.level = c.Level
 	lgr.records = createRecords(lgr.c.RecordLength, lgr.c.RecordFactor)
 	lgr.file = file
